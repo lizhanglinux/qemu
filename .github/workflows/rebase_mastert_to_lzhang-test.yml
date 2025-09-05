@@ -1,0 +1,33 @@
+name: Rebase master onto lzhang/test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lzhang/test branch
+        uses: actions/checkout@v4
+        with:
+          ref: lzhang/test
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Fetch master branch
+        run: git fetch origin master:master
+
+      - name: Rebase master onto lzhang/test
+        run: |
+          git checkout master
+          git rebase lzhang/test
+          git checkout lzhang/test
+          git merge --ff-only master
+
+      - name: Force-push lzhang/test
+        run: |
+          git push --force-with-lease origin lzhang/test
