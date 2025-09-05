@@ -1,0 +1,28 @@
+name: Rebase lzhang/test onto lzhang/newtest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout lzhang/test branch
+        uses: actions/checkout@v4
+        with:
+          ref: lzhang/test
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Fetch newtest branch
+        run: git fetch origin lzhang/newtest:lzhang/newtest
+
+      - name: Rebase lzhang/test onto lzhang/newtest
+        run: git rebase lzhang/newtest
+
+      - name: Force-push lzhang/test if rebase succeeds
+        run: git push --force-with-lease origin lzhang/test
