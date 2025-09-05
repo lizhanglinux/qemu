@@ -1,0 +1,29 @@
+name: Rebase lzhang/test onto master
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: lzhang/test
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Fetch master
+        run: git fetch origin master:master
+
+      - name: Rebase test branch onto master
+        run: |
+          git rebase master || { echo "Rebase failed. Resolve conflicts manually."; exit 1; }
+
+      - name: Force push to lzhang/test
+        run: git push --force-with-lease origin HEAD:lzhang/test
