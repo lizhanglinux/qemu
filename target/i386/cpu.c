@@ -3609,7 +3609,7 @@ static const X86CPUDefinition builtin_x86_defs[] = {
             CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
             CPUID_DE | CPUID_FP87,
         .features[FEAT_1_ECX] =
-            CPUID_EXT_SSSE3 | CPUID_EXT_SSE3,
+            CPUID_EXT_SSSE3 | CPUID_EXT_SSE3 | CPUID_EXT_MONITOR,
         .features[FEAT_8000_0001_EDX] =
             CPUID_EXT2_LM | CPUID_EXT2_NX | CPUID_EXT2_SYSCALL,
         .features[FEAT_8000_0001_ECX] =
